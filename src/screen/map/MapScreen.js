@@ -8,17 +8,31 @@ import {
 import MapView from 'react-native-maps'
 
 export default class MapScreen extends Component {
+ regionFrom = (lat, lon, distance) => {
+    distance = distance / 2
+    const circumference = 40075
+    const oneDegreeOfLatitudeInMeters = 111.32 * 1000
+    const angularDistance = distance / circumference
+
+    const latitudeDelta = distance / oneDegreeOfLatitudeInMeters
+    const longitudeDelta = Math.abs(Math.atan2(
+      Math.sin(angularDistance) * Math.cos(lat),
+      Math.cos(angularDistance) - Math.sin(lat) * Math.sin(lat)))
+
+    return result = {
+      latitude: lat,
+      longitude: lon,
+      latitudeDelta,
+      longitudeDelta,
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+          initialRegion={this.regionFrom(13.742239, 100.561626, 100)}
         />
       </View>
     )
