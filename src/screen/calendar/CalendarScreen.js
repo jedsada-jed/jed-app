@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
+import styles, {
+  cDayHeight,
+  cTextHeadMargin,
+  cHeaderMargin,
+  cHeaderFontSize,
+  cMainHeight,
+  cBodyPaddingHorizontal,
+} from './styles'
 
-const calendarDayHeight = 44
-const calenderTextHeadMargin = 11
-const calendarHeaderMargin = 11
-const calendarHeaderFontSize = 14
-const calendarMainHeight = (calendarDayHeight * 5) + (calenderTextHeadMargin * 2) + (calendarHeaderMargin * 2) + calendarHeaderFontSize
+
 const styleSheetCalendarMain = {
   container: {
     flex: 1,
@@ -21,13 +25,12 @@ const styleSheetCalendarMain = {
     flex: 1,
   },
   dayContainer: {
-    height: calendarDayHeight,
+    height: cDayHeight,
     flex: 1,
   },
   week: {
     flex: 1,
-    paddingLeft: 7,
-    paddingRight: 7,
+    paddingHorizontal: cBodyPaddingHorizontal,
     marginTop: 0,
     marginBottom: 0,
     flexDirection: 'row',
@@ -155,112 +158,74 @@ class CalendarScreen extends Component {
     }
   }
 
+  renderDayName = dayNames =>
+    <View style={styles.weekDayName}>
+      {
+        dayNames.map((dayName, index) => {
+          return (
+            <View key={index} style={styles.dayName}>
+              <Text>{dayName}</Text>
+            </View>
+          )
+        })
+      }
+    </View>
+
   render() {
     const { startDate, endDate } = this.state
     return (
-      <CalendarList
-        calendarHeight={calendarMainHeight}
-        markedDates={{
-          [startDate]: { startingDay: true },
-          [endDate]: { endingDay: true },
-          ...this.dateDisabled,
-        }}
-        theme={{
-          'stylesheet.calendar.main': {
-            ...styleSheetCalendarMain
-          },
-          'stylesheet.calendar.header': {
-            header: {
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingLeft: 10,
-              paddingRight: 10,
-              alignItems: 'center',
-              backgroundColor: '#f6f6f6',
-              marginVertical: calendarHeaderMargin,
-              borderTopColor: '#e8e8e8',
-              borderBottomColor: '#e8e8e8',
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
+      <View style={{ flex: 1 }}>
+        {this.renderDayName(['S', 'M', 'T', 'W', 'T', 'F', 'S'])}
+        <CalendarList
+          calendarHeight={cMainHeight}
+          markedDates={{
+            [startDate]: { startingDay: true },
+            [endDate]: { endingDay: true },
+            ...this.dateDisabled,
+          }}
+          theme={{
+            'stylesheet.calendar.main': {
+              ...styleSheetCalendarMain
             },
-            monthText: {
-              fontSize: calendarHeaderFontSize,
-              fontWeight: 'bold',
-              // fontFamily: 'OpenSans',
-              color: '#666666',
-              margin: calenderTextHeadMargin,
+            'stylesheet.calendar.header': {
+              header: {
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 10,
+                paddingRight: 10,
+                alignItems: 'center',
+                backgroundColor: '#f6f6f6',
+                marginVertical: cHeaderMargin,
+                borderTopColor: '#e8e8e8',
+                borderBottomColor: '#e8e8e8',
+                borderTopWidth: 1,
+                borderBottomWidth: 1,
+              },
+              monthText: {
+                fontSize: cHeaderFontSize,
+                fontWeight: 'bold',
+                // fontFamily: 'OpenSans',
+                color: '#666666',
+                margin: cTextHeadMargin,
+              },
             },
-          },
-          'stylesheet.calendar-list.main': {
-            calendar: {
-              paddingLeft: 0,
-              paddingRight: 0,
+            'stylesheet.calendar-list.main': {
+              calendar: {
+                paddingLeft: 0,
+                paddingRight: 0,
+              },
             },
-          },
-        }}
-        dayComponent={this.renderDayComponent}
-        hideDayNames
-        scrollEnabled
-        showScrollIndicator
-        pastScrollRange={100}
-        futureScrollRange={1}
-      />
+          }}
+          dayComponent={this.renderDayComponent}
+          hideDayNames
+          scrollEnabled
+          showScrollIndicator
+          pastScrollRange={100}
+          futureScrollRange={1}
+        />
+      </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-  dayMark: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  dayWrapperDisable: {
-    flex: 1,
-    height: calendarDayHeight,
-    paddingBottom: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dayTextDisable: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#cccccc',
-  },
-  dayWrapper: {
-    flex: 1,
-    height: calendarDayHeight,
-    paddingBottom: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mark: {
-    flex: 1,
-    width: 43,
-    backgroundColor: '#ff1654',
-    borderRadius: 8,
-    paddingTop: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dayText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#333333',
-  },
-  fromToMark: {
-    color: '#fff',
-    position: 'absolute',
-    top: 1,
-    fontSize: 10
-  }
-})
 
 export default CalendarScreen
