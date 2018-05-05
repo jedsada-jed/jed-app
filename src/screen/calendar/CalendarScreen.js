@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     height: calendarDayHeight,
     paddingBottom: 4,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   mark: {
     flex: 1,
