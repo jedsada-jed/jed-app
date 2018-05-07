@@ -16,7 +16,6 @@ import styles, {
   cBodyPaddingHorizontal,
 } from './styles'
 
-
 const styleSheetCalendarMain = {
   container: {
     flex: 1,
@@ -36,6 +35,36 @@ const styleSheetCalendarMain = {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+}
+
+const styleSheetCalendarHeader = {
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignItems: 'center',
+    backgroundColor: '#f6f6f6',
+    marginVertical: cHeaderMargin,
+    borderTopColor: '#e8e8e8',
+    borderBottomColor: '#e8e8e8',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+  monthText: {
+    fontSize: cHeaderFontSize,
+    fontWeight: 'bold',
+    // fontFamily: 'OpenSans',
+    color: '#666666',
+    margin: cTextHeadMargin,
+  },
+}
+
+const styleSheetCalendarListMain = {
+  calendar: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  }
 }
 
 class CalendarScreen extends Component {
@@ -164,17 +193,19 @@ class CalendarScreen extends Component {
         dayNames.map((dayName, index) => {
           return (
             <View key={index} style={styles.dayName}>
-              <Text>{dayName}</Text>
+              <Text style={styles.dayNameText}>{dayName}</Text>
             </View>
           )
         })
       }
     </View>
 
+
+
   render() {
     const { startDate, endDate } = this.state
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         {this.renderDayName(['S', 'M', 'T', 'W', 'T', 'F', 'S'])}
         <CalendarList
           calendarHeight={cMainHeight}
@@ -184,37 +215,9 @@ class CalendarScreen extends Component {
             ...this.dateDisabled,
           }}
           theme={{
-            'stylesheet.calendar.main': {
-              ...styleSheetCalendarMain
-            },
-            'stylesheet.calendar.header': {
-              header: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingLeft: 10,
-                paddingRight: 10,
-                alignItems: 'center',
-                backgroundColor: '#f6f6f6',
-                marginVertical: cHeaderMargin,
-                borderTopColor: '#e8e8e8',
-                borderBottomColor: '#e8e8e8',
-                borderTopWidth: 1,
-                borderBottomWidth: 1,
-              },
-              monthText: {
-                fontSize: cHeaderFontSize,
-                fontWeight: 'bold',
-                // fontFamily: 'OpenSans',
-                color: '#666666',
-                margin: cTextHeadMargin,
-              },
-            },
-            'stylesheet.calendar-list.main': {
-              calendar: {
-                paddingLeft: 0,
-                paddingRight: 0,
-              },
-            },
+            'stylesheet.calendar.main': { ...styleSheetCalendarMain },
+            'stylesheet.calendar.header': { ...styleSheetCalendarHeader },
+            'stylesheet.calendar-list.main': { ...styleSheetCalendarListMain },
           }}
           dayComponent={this.renderDayComponent}
           hideDayNames

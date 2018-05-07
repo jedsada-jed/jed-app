@@ -19,9 +19,6 @@ export {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
   },
   dayMark: {
     fontWeight: 'bold',
@@ -81,5 +78,9 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderColor: '#ddd',
     borderBottomWidth: 1,
+  },
+  dayNameText: {
+    fontSize: 12,
+    color: '#999999',
   },
 })
