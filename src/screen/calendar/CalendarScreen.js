@@ -1,158 +1,234 @@
-//import liraries
 import React, { Component } from 'react'
 import moment from 'moment'
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
+import styles, {
+  cDayHeight,
+  cTextHeadMargin,
+  cHeaderMargin,
+  cHeaderFontSize,
+  cMainHeight,
+  cBodyPaddingHorizontal,
+} from './styles'
 
-// create a component
+const styleSheetCalendarMain = {
+  container: {
+    flex: 1,
+  },
+  monthView: {
+    flex: 1,
+  },
+  dayContainer: {
+    height: cDayHeight,
+    flex: 1,
+  },
+  week: {
+    flex: 1,
+    paddingHorizontal: cBodyPaddingHorizontal,
+    marginTop: 0,
+    marginBottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+}
+
+const styleSheetCalendarHeader = {
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignItems: 'center',
+    backgroundColor: '#f6f6f6',
+    marginVertical: cHeaderMargin,
+    borderTopColor: '#e8e8e8',
+    borderBottomColor: '#e8e8e8',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+  monthText: {
+    fontSize: cHeaderFontSize,
+    fontWeight: 'bold',
+    // fontFamily: 'OpenSans',
+    color: '#666666',
+    margin: cTextHeadMargin,
+  },
+}
+
+const styleSheetCalendarListMain = {
+  calendar: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  }
+}
+
 class CalendarScreen extends Component {
+  dateNow = moment().format('YYYY-MM-DD')
   state = {
-    endDate: moment().format('YYYY-MM-DD'),
     startDate: '',
-    nextFocusDate: 'start',
     isInitDateToday: true,
+    endDate: this.dateNow,
+    nextFocusDate: 'start',
   }
 
-  renderDay = ({ date, state, marking }) => {
-    if (moment().isBefore(date.dateString)) {
-      return <View
-        style={{
-          width: 44, height: 44, paddingTop: 5,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ fontSize: 16, textAlign: 'center', color: 'gray' }}>
-          {date.day}
-        </Text>
-      </View>
-    } else if (marking.startingDay || marking.endingDay) {
-      return <TouchableOpacity
-        onPress={() => {
-          console.log('1',this.state.isInitDateToday)
-          if (!this.state.isInitDateToday) {
-            console.log('2')
-            if (marking.startingDay) {
-              console.log('3')
-              this.setState({ endDate: '', nextFocusDate: 'end' })
-            } else {
-              // today
-              if (moment(date.dateString).isSame(moment().format('YYYY-MM-DD'))) {
-                this.setState({ endDate: date.dateString, startDate: '', nextFocusDate: 'start', isInitDateToday: true, })
-              } else {
-              this.setState({ endDate: '', startDate: date.dateString, nextFocusDate: 'end', })
-            }
-            }
-          } else {
-            console.log('5')
-          }
-        }}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 44, height: 44, paddingTop: 5,
-          backgroundColor: '#ff1654', borderRadius: 8
-        }}
-      >
-        <Text style={{ color: '#fff', position: 'absolute', top: 2, fontSize: 10 }}>{
-          this.state.endDate && this.state.startDate ?
-            (marking.startingDay
-              ? 'From1'
-              : 'To1'
-            )
-            : this.state.isInitDateToday ? 'To2' : 'From2'}</Text>
-        <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', color: '#fff' }}>
-          {date.day}
-        </Text>
-      </TouchableOpacity>
-    } else {
-      return <TouchableOpacity
-        onPress={() => {
-          console.log('11')
-          if (this.state.nextFocusDate === 'start') {
-            console.log('12')
-            if (this.state.isInitDateToday) {
-              console.log('13', date, this.state.nextFocusDate)
-              this.setState({ startDate: date.dateString, isInitDateToday: false, })
-            } else {
-              if (moment(date.dateString).isSame(moment().format('YYYY-MM-DD'))) {
-                console.log('15')
-                this.setState({ startDate: '', endDate: date.dateString, isInitDateToday: true, })
-              } 
-              else {
-                console.log('16')
-                this.setState({ startDate: date.dateString, isInitDateToday: false, endDate: '', nextFocusDate: 'end' })
-              }
-            }
-          } else {
-            // end
-            console.log('17')
-            if (moment(date.dateString).isBefore(this.state.startDate)) {
-              console.log('18')
-              this.setState({ startDate: date.dateString })
-            } else {
-              console.log('19')
-              this.setState({ endDate: date.dateString, nextFocusDate: 'start' })
-            }
-          }
-          console.log(this.state)
-        }}
-        style={{
-          width: 44, height: 44, paddingTop: 5,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ fontSize: 16, textAlign: 'center', color: state === 'disabled' ? 'gray' : 'black' }}>
-          {date.day}
-        </Text>
-      </TouchableOpacity>
+  handleOnDayMarkPress = (startingDay, dateString) => {
+    const { isInitDateToday } = this.state
+    if (!this.state.isInitDateToday) {
+      if (startingDay) {
+        this.setState({
+          endDate: '',
+          nextFocusDate: 'end',
+        })
+      } else if (moment(dateString).isSame(this.dateNow)) {
+        // today
+        this.setState({
+          endDate: dateString,
+          startDate: '',
+          nextFocusDate: 'start',
+          isInitDateToday: true,
+        })
+      } else {
+        this.setState({
+          endDate: '',
+          startDate: dateString,
+          nextFocusDate: 'end',
+        })
+      }
     }
   }
 
-  render() {
+  handleOnDayPress = (dateString) => {
+    const { nextFocusDate, isInitDateToday, startDate } = this.state
+    if (nextFocusDate === 'start') {
+      if (isInitDateToday) {
+        this.setState({
+          startDate: dateString,
+          isInitDateToday: false,
+        })
+      } else if (moment(dateString).isSame(this.dateNow)) {
+        this.setState({
+          startDate: '',
+          endDate: dateString,
+          isInitDateToday: true,
+        })
+      } else {
+        this.setState({
+          startDate: dateString,
+          isInitDateToday: false,
+          endDate: '',
+          nextFocusDate: 'end',
+        })
+      }
+    } else if (moment(dateString).isBefore(startDate)) {
+      this.setState({ startDate: dateString })
+    } else {
+      this.setState({
+        endDate: dateString,
+        nextFocusDate: 'start',
+      })
+    }
+  }
+
+  renderDayDisabled = (day) =>
+    <View style={styles.dayWrapperDisable}>
+      <Text style={styles.dayTextDisable}>
+        {day}
+      </Text>
+    </View>
+
+  renderDayMark = (marking, day, dateString) => {
+    const { startingDay, endingDay } = marking
+    const { endDate, startDate, isInitDateToday } = this.state
     return (
-      <CalendarList
-        markedDates={{
-          [this.state.startDate]: { startingDay: true },
-          [this.state.endDate]: { endingDay: true },
-          ...this.dateDisabled,
-        }}
-        theme={{
-          'stylesheet.calendar.main': {
-            dayContainer: {
-              width: 44,
-              height: 44,
-            },
-            week: {
-              marginTop: 0,
-              marginBottom: 0,
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-            },
-          },
-        }}
-        dayComponent={this.renderDay}
-        hideDayNames={true}
-        // onVisibleMonthsChange={(months) => { console.log('now these months are visible', months); }}
-        pastScrollRange={100}
-        futureScrollRange={1}
-        scrollEnabled={true}
-        showScrollIndicator={true}
-      />
+      <TouchableOpacity
+        onPress={() => this.handleOnDayMarkPress(startingDay, dateString)}
+        style={styles.dayWrapper}
+      >
+        <View style={styles.mark}>
+          <Text style={styles.fromToMark}>
+            {
+              endDate && startDate
+                ? (startingDay ? 'From' : 'To')
+                : isInitDateToday ? 'To' : 'From'
+            }
+          </Text>
+          <Text style={styles.dayMark}>
+            {day}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
+  renderDay = (day, dateString) =>
+    <TouchableOpacity
+      onPress={() => this.handleOnDayPress(dateString)}
+      style={[styles.dayWrapper]}
+    >
+      <Text style={styles.dayText}>
+        {day}
+      </Text>
+    </TouchableOpacity>
+
+  renderDayComponent = ({ date, state, marking }) => {
+    const { dateString, day } = date
+    const { startingDay, endingDay } = marking
+    if (moment().isBefore(dateString)) {
+      return this.renderDayDisabled(day)
+    } else if (startingDay || endingDay) {
+      return this.renderDayMark(marking, day, dateString)
+    } else {
+      return this.renderDay(day, dateString)
+    }
+  }
+
+  renderDayName = dayNames =>
+    <View style={styles.weekDayName}>
+      {
+        dayNames.map((dayName, index) => {
+          return (
+            <View key={index} style={styles.dayName}>
+              <Text style={styles.dayNameText}>{dayName}</Text>
+            </View>
+          )
+        })
+      }
+    </View>
+
+
+
+  render() {
+    const { startDate, endDate } = this.state
+    return (
+      <View style={styles.container}>
+        {this.renderDayName(['S', 'M', 'T', 'W', 'T', 'F', 'S'])}
+        <CalendarList
+          calendarHeight={cMainHeight}
+          markedDates={{
+            [startDate]: { startingDay: true },
+            [endDate]: { endingDay: true },
+            ...this.dateDisabled,
+          }}
+          theme={{
+            'stylesheet.calendar.main': { ...styleSheetCalendarMain },
+            'stylesheet.calendar.header': { ...styleSheetCalendarHeader },
+            'stylesheet.calendar-list.main': { ...styleSheetCalendarListMain },
+          }}
+          dayComponent={this.renderDayComponent}
+          hideDayNames
+          scrollEnabled
+          showScrollIndicator
+          pastScrollRange={100}
+          futureScrollRange={1}
+        />
+      </View>
     )
   }
 }
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-})
-
-//make this component available to the app
 export default CalendarScreen
