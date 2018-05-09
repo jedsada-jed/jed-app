@@ -14,6 +14,7 @@ export default class HomeScreen extends Component {
         <Button onPress={() => this.props.navigation.navigate('MapScreen')} title={'Map'} />
         <Button onPress={() => this.props.navigation.navigate('SwipeOutItemScreen')} title={'SwipeoutItem'} />
         <Button onPress={() => this.props.navigation.navigate('SwipeableItemScreen')} title={'SwipeableItem'} />
+        <Button onPress={() => this.props.navigation.navigate('CalendarScreen')} title={'Calendar'} />
       </View>
     )
   }
