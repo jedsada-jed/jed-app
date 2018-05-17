@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
 } from 'react-native'
 import { Container, Header, Left, Button, Icon, Body, Title, Right, Content } from 'native-base'
 import MapView, { Marker } from 'react-native-maps'
@@ -29,10 +29,12 @@ export default class MapScreen extends Component {
   }
 
   render() {
+    console.log(Platform)
     const { navigation } = this.props
     let latitude
     let longitude
     if (navigation.state.params) {
+      console.log(navigation.state.params)
       latitude = navigation.state.params.geocodeData.results[0].geometry.location.lat
       longitude = navigation.state.params.geocodeData.results[0].geometry.location.lng
     } else {
@@ -63,13 +65,13 @@ export default class MapScreen extends Component {
                   latitude,
                   longitude,
                 }}>
-                <View style={{ height: 88 }}>
+                <View style={Platform.OS === 'ios' && { height: 88 }} >
                   <Image style={{ width: 44, height: 44 }} source={require('../../asset/pinmap.png')} />
                 </View>
               </Marker>}
           </MapView>
         </View>
-      </Container>
+      </Container >
     )
   }
 }
