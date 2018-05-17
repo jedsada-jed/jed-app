@@ -3,6 +3,7 @@ import HomeScreen from './home/HomeScreen'
 import SwipeableItemScreen from './swipeable/SwipeableItemScreen'
 import SwipeOutItemScreen from './swipeout/SwipeOutItemScreen'
 import CalendarScreen from './calendar/CalendarScreen'
+import GeocodeAddressScreen from './geocode/GeocodeAddressScreen'
 
 export {
   MapScreen,
@@ -10,4 +11,5 @@ export {
   SwipeableItemScreen,
   SwipeOutItemScreen,
   CalendarScreen,
+  GeocodeAddressScreen,
 }

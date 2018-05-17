@@ -16,6 +16,7 @@
     "react-native-maps": "^0.21.0",
     "react-native-swipeable": "^0.6.0",
     "react-native-swipeout": "^2.3.3",
+    "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^1.5.11"
   },
   "devDependencies": {
