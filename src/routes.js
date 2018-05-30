@@ -5,6 +5,7 @@ import {
   SwipeableItemScreen,
   SwipeOutItemScreen,
   CalendarScreen,
+  LazyLoadScreen,
 } from './screen'
 
 
@@ -15,6 +16,7 @@ const root =  StackNavigator(
     SwipeableItemScreen: { screen: SwipeableItemScreen },
     SwipeOutItemScreen: { screen: SwipeOutItemScreen },
     CalendarScreen: { screen: CalendarScreen },
+    LazyLoadScreen: { screen: LazyLoadScreen },
   },
   {
     initialRouteName: 'HomeScreen',
