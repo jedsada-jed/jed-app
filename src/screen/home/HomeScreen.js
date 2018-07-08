@@ -19,12 +19,12 @@ export default class HomeScreen extends Component {
           <Right />
         </Header>
         <View style={styles.container}>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('MapScreen')}><Text>Map</Text></Button>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('GeocodeAddressScreen')}><Text>GeocodeAddress</Text></Button>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('SwipeOutItemScreen')}><Text>SwipeoutItem</Text></Button>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('SwipeableItemScreen')}><Text>SwipeableItem</Text></Button>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('CalendarScreen')}><Text>Calendar</Text></Button>
-          <Button primary style={styles.btn} block onPress={() => this.props.navigation.navigate('LazyLoadScreen')}><Text>LazyLoad</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('MapScreen')}><Text>Map</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('GeocodeAddressScreen')}><Text>GeocodeAddress</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('SwipeOutItemScreen')}><Text>SwipeoutItem</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('SwipeableItemScreen')}><Text>SwipeableItem</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('CalendarScreen')}><Text>Calendar</Text></Button>
+          <Button primary style={styles.btn} block onPress={() => navigation.navigate('LazyLoadScreen')}><Text>LazyLoad</Text></Button>
         </View>
       </Container>
 
