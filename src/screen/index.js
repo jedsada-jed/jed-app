@@ -3,6 +3,7 @@ import HomeScreen from './home/HomeScreen'
 import SwipeableItemScreen from './swipeable/SwipeableItemScreen'
 import SwipeOutItemScreen from './swipeout/SwipeOutItemScreen'
 import CalendarScreen from './calendar/CalendarScreen'
+import LazyLoadScreen from './list/LazyLoadScreen'
 import GeocodeAddressScreen from './geocode/GeocodeAddressScreen'
 
 export {
@@ -11,5 +12,6 @@ export {
   SwipeableItemScreen,
   SwipeOutItemScreen,
   CalendarScreen,
+  LazyLoadScreen,
   GeocodeAddressScreen,
 }
